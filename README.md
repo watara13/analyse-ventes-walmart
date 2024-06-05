@@ -32,19 +32,26 @@ Walmart, l'une des plus grandes chaînes de distribution au monde, génère des 
 
 Nous avons commencé par charger les données et effectuer une conversion des dates pour faciliter l'analyse temporelle. Ensuite, nous avons réalisé une analyse statistique pour résumer les ventes hebdomadaires :
 
-###python
+python
+
 df['Date'] = pd.to_datetime(df['Date'], format='%d-%m-%Y')
+
 df['Month'] = df['Date'].dt.month
+
 df['Year'] = df['Date'].dt.year
+
 print(df.describe())
+
 Statistiques Descriptives
 
 Pour visualiser les ventes hebdomadaires par magasin et par département, nous avons utilisé des boxplots :
 
 python
-Copier le code
+
 sns.boxplot(x='Store', y='Weekly_Sales', data=df)
+
 sns.boxplot(x='Dept', y='Weekly_Sales', data=df)
+
 Ventes Hebdomadaires par Magasin
 
 2. Modélisation de Régression Linéaire, Ridge et Lasso
@@ -53,8 +60,9 @@ Nous avons préparé nos ensembles d'entraînement et de test, puis construit de
 python
 Copier le code
 models=[{'name':'LinearRegression','model':LinearRegression()},
-        {'name':'Ridge','model': Ridge()},{'name':'Lasso','model': Lasso()}
-        ]
+{'name':'Ridge','model': Ridge()},
+{'name':'Lasso','model': Lasso()}
+]
 
 X = df[['Store', 'Month', 'Year']]
 y = df['Weekly_Sales']
@@ -69,13 +77,13 @@ for item in models:
     r2 = r2_score(y_test, y_pred)
     print(f'{name} :Mean Squared Error: {mse}')
     print(f'{name} :R^2 Score: {r2}')
+
 Les résultats ont été évalués à l'aide de la MSE et du R², et visualisés comme suit :
 
 3. Arbre de Décision pour la Performance des Magasins
 Nous avons ensuite créé une nouvelle variable 'Performance' pour catégoriser les performances des magasins et entraîné un modèle d'arbre de décision :
 
-python
-Copier le code
+
 df['Performance'] = np.where(df['Weekly_Sales'] > df['Weekly_Sales'].median(), 1, 0)
 model = DecisionTreeClassifier()
 model.fit(X_train, y_train)
@@ -86,8 +94,6 @@ Résultats
 Visualisation des Ventes Mensuelles Totales
 En analysant les ventes mensuelles totales, nous avons pu identifier les mois avec des pics de ventes significatifs.
 
-python
-Copier le code
 def graphique_par_an(x):
     df['Date'] = pd.to_datetime(df['Date'], format='%d-%m-%Y')
     df.set_index('Date', inplace=True)
@@ -105,7 +111,10 @@ def graphique_par_an(x):
     plt.grid(True)
     plt.show()
 
-graphique_par_an(2011)
+
+
+
+
 Performance des Modèles
 La régression linéaire, Ridge et Lasso ont montré une capacité modérée à prédire les ventes hebdomadaires, tandis que l'arbre de décision a bien classé les magasins selon leur performance.
 
