@@ -60,12 +60,16 @@ Nous avons préparé nos ensembles d'entraînement et de test, puis construit de
 python
 Copier le code
 models=[{'name':'LinearRegression','model':LinearRegression()},
+
 {'name':'Ridge','model': Ridge()},
+
 {'name':'Lasso','model': Lasso()}
 ]
 
 X = df[['Store', 'Month', 'Year']]
+
 y = df['Weekly_Sales']
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 for item in models:
