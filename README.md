@@ -73,13 +73,21 @@ y = df['Weekly_Sales']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 for item in models:
+    
     name=item['name']
+    
     model=item['model']
+    
     model.fit(X_train, y_train)
+    
     y_pred = model.predict(X_test)
+    
     mse = mean_squared_error(y_test, y_pred)
+    
     r2 = r2_score(y_test, y_pred)
+    
     print(f'{name} :Mean Squared Error: {mse}')
+    
     print(f'{name} :R^2 Score: {r2}')
 
 Les résultats ont été évalués à l'aide de la MSE et du R², et visualisés comme suit :
@@ -89,8 +97,11 @@ Nous avons ensuite créé une nouvelle variable 'Performance' pour catégoriser 
 
 
 df['Performance'] = np.where(df['Weekly_Sales'] > df['Weekly_Sales'].median(), 1, 0)
+
 model = DecisionTreeClassifier()
+
 model.fit(X_train, y_train)
+
 Arbre de Décision
 
 Résultats
@@ -100,19 +111,33 @@ En analysant les ventes mensuelles totales, nous avons pu identifier les mois av
 
 def graphique_par_an(x):
     df['Date'] = pd.to_datetime(df['Date'], format='%d-%m-%Y')
+    
     df.set_index('Date', inplace=True)
+    
     start_date = pd.Timestamp(f'{x}-01-01')
+    
     end_date = pd.Timestamp(f'{x}-12-31')
+    
     df_filtered = df[(df.index >= start_date) & (df.index < end_date)]
+    
     df_monthly_sales = df_filtered['Weekly_Sales'].resample('M').sum()
+    
     df_monthly_sales_million = df_monthly_sales / 1e6
+    
     plt.figure(figsize=(14, 7))
+    
     plt.plot(df_monthly_sales.index, df_monthly_sales_million)
+    
     plt.ticklabel_format(style='plain', axis='y')
+    
     plt.title('Ventes mensuelles totales')
+    
     plt.xlabel('Date')
+    
     plt.ylabel('Ventes mensuelles en millions')
+    
     plt.grid(True)
+    
     plt.show()
 
 
